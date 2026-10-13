@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>If... Will! First Conditional Quest</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff7e6;--card:#ffffff;--ink:#2b2d42;--muted:#6b6f85;--accent:#ff6b6b;--accent2:#4d96ff;--ok:#2ec4b6;--okbg:#dff7f3;--no:#ff9f1c;--nobg:#fff0d6;--line:#e3e6f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1d2e;--card:#26293f;--ink:#f1f2f8;--muted:#a9adc6;--okbg:#17433f;--nobg:#4a3516;--line:#3a3e5c}}
+:root[data-theme="dark"]{--bg:#1b1d2e;--card:#26293f;--ink:#f1f2f8;--muted:#a9adc6;--okbg:#17433f;--nobg:#4a3516;--line:#3a3e5c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",Tahoma,sans-serif;font-size:18px;line-height:1.45}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:24px;padding:22px;box-shadow:0 6px 0 rgba(0,0,0,.08);border:2px solid var(--line)}
+h1{font-size:2rem;margin:.2em 0;color:var(--accent)}
+.hero{text-align:center}
+.big{font-size:4rem;line-height:1.1}
+.btn{font:inherit;font-weight:800;border:0;border-radius:16px;padding:14px 26px;background:var(--accent2);color:#fff;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.2);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.btn.go{background:var(--accent);font-size:1.2rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;font-weight:800}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px}
+.pill b{color:var(--accent)}
+.bar{height:14px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--ok));border-radius:99px;transition:width .4s}
+.scene{font-size:3.4rem;text-align:center;background:linear-gradient(135deg,#ffe8a3,#ffc2d1);border-radius:18px;padding:10px;margin-bottom:14px}
+.q{font-size:1.45rem;font-weight:800;margin:6px 0 16px}
+.q u{text-decoration:none;border-bottom:4px dotted var(--accent);padding:0 8px;color:var(--accent)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{font:inherit;font-weight:700;text-align:left;padding:14px 16px;border-radius:16px;border:3px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;gap:10px;align-items:center}
+.opt:hover:not(:disabled){border-color:var(--accent2);transform:translateY(-2px)}
+.opt .l{background:var(--accent2);color:#fff;border-radius:10px;min-width:32px;height:32px;display:grid;place-items:center;font-weight:800}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--nobg);border-color:var(--no)}
+.opt:disabled{cursor:default}
+.fb{margin-top:16px;padding:14px 16px;border-radius:16px;display:none}
+.fb.ok{background:var(--okbg);border:2px solid var(--ok)}
+.fb.no{background:var(--nobg);border:2px solid var(--no)}
+.fb h3{margin:0 0 4px;font-size:1.2rem}
+.fb p{margin:4px 0}
+.th{color:var(--muted);font-size:.95rem}
+.next{text-align:right;margin-top:14px;display:none}
+.stars{font-size:2.6rem;letter-spacing:6px}
+.score{font-size:3rem;font-weight:900;color:var(--accent)}
+.hint{background:var(--okbg);border-radius:16px;padding:12px 16px;margin:14px 0;text-align:left}
+.pop{animation:pop .35s}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+var Q=[
+{e:"🌧️",s:"If it ___ tomorrow, we will stay at home.",o:["will rain","rained","rains","raining"],a:2,x:"After if, use Present Simple (rains). Not will! ➜ หลัง if ใช้ Present Simple"},
+{e:"📚",s:"If you study hard, you ___ the exam.",o:["pass","will pass","passed","would pass"],a:1,x:"The result part uses will + V1: will pass. ➜ ผลลัพธ์ใช้ will + V1"},
+{e:"😴",s:"If I ___ up late, I will be tired at school.",o:["stay","will stay","stayed","staying"],a:0,x:"If + Present Simple: stay. ➜ ใช้ stay ธรรมดา"},
+{e:"🚌",s:"If we miss the bus, we ___ late.",o:["are","would be","will be","were"],a:2,x:"Real future result: will be. ➜ ผลที่อาจเกิดในอนาคตใช้ will be"},
+{e:"🎁",s:"She will be happy if you ___ her a gift.",o:["will give","give","gave","giving"],a:1,x:"The if-part uses Present Simple, even at the end of the sentence: give."},
+{e:"🍔",s:"If you ___ lunch, you will feel hungry.",o:["don't eat","won't eat","didn't eat","not eat"],a:0,x:"Negative Present Simple: don't eat. ➜ ปฏิเสธใช้ don't + V1"},
+{e:"✏️",s:"If I find your pen, I ___ it to you.",o:["give","gave","will give","would give"],a:2,x:"Use will + V1 in the result part: will give."},
+{e:"🤒",s:"What will you do if your friend ___ sick?",o:["will be","is","was","being"],a:1,x:"If + Present Simple: your friend is sick. ➜ he/she/it ใช้ is"},
+{e:"🧺",s:"If the weather is nice on Sunday, we ___ a picnic.",o:["have","had","would have","will have"],a:3,x:"Result part: will + V1 = will have a picnic."},
+{e:"🧠",s:"Which sentence is correct?",o:["If I will see him, I tell him.","If I see him, I will tell him.","If I saw him, I will tell him.","If I see him, I told him."],a:1,x:"Pattern: If + Present Simple, will + V1. Only B follows it!"}
+];
+var OK=["Awesome! 🎉","Great job! ⭐","You got it! 💪","Super! 🚀","Brilliant! 🌟"];
+var NO=["Good try! 💛","Nice effort! 🌈","Almost there! 🙂","Keep going! 💪"];
+var app=document.getElementById("app"),i=0,score=0,right=0,streak=0,best=0,done=false;
+try{best=parseInt(localStorage.getItem("fcq_best"))||0}catch(e){}
+function start(){i=0;score=0;right=0;streak=0;show()}
+function intro(){
+ app.innerHTML='<div class="card hero pop"><div class="big">🎯☀️🌧️</div><h1>If... Will!</h1><p><b>First Conditional Quest</b></p>'+
+ '<div class="hint">🔑 <b>Remember:</b><br><b>If</b> + Present Simple, <b>will</b> + V1<br><i>If it rains, we will stay home.</i></div>'+
+ '<p>10 questions · 5 points each · 50 points total<br><span class="th">10 ข้อ ข้อละ 5 คะแนน รวม 50 คะแนน — ลองดูนะ ไม่ต้องกลัวผิด!</span></p>'+
+ (best?'<p>🏆 Your best: <b>'+best+'/50</b></p>':'')+'<button class="btn go" id="s">Start! ▶</button></div>';
+ document.getElementById("s").onclick=start}
+function show(){
+ var q=Q[i],L=["A","B","C","D"];
+ var sent=q.s.indexOf("___")>-1?q.s.replace("___","<u>?</u>"):q.s;
+ app.innerHTML='<div class="top"><span class="pill">Question <b>'+(i+1)+'</b>/10</span><span class="pill">⭐ Score <b id="sc">'+score+'</b>/50</span><span class="pill">🔥 '+streak+'</span></div>'+
+ '<div class="bar"><i id="pb" style="width:'+(i/10*100)+'%"></i></div>'+
+ '<div class="card pop"><div class="scene">'+q.e+'</div><div class="q">'+sent+'</div><div class="opts">'+
+ q.o.map(function(t,k){return '<button class="opt" data-k="'+k+'"><span class="l">'+L[k]+'</span><span>'+t+'</span></button>'}).join("")+
+ '</div><div class="fb" id="fb"></div><div class="next" id="nx"><button class="btn" id="nb">'+(i==9?"See my result 🏁":"Next ➜")+'</button></div></div>';
+ var bs=app.querySelectorAll(".opt");
+ bs.forEach(function(b){b.onclick=function(){pick(+b.dataset.k,bs)}});
+ document.getElementById("nb").onclick=function(){i++;i<10?show():result()}}
+function pick(k,bs){
+ var q=Q[i],ok=k==q.a;
+ bs.forEach(function(b){b.disabled=true});
+ bs[q.a].classList.add("right");
+ if(!ok)bs[k].classList.add("wrong");
+ if(ok){score+=5;right++;streak++}else streak=0;
+ document.getElementById("sc").textContent=score;
+ document.getElementById("pb").style.width=((i+1)/10*100)+"%";
+ var fb=document.getElementById("fb");
+ fb.className="fb "+(ok?"ok":"no");fb.style.display="block";
+ var full=q.s.replace("___",q.o[q.a]);
+ fb.innerHTML='<h3>'+(ok?OK[i%OK.length]+' +5 points':NO[i%NO.length]+' +0 — you will get the next one!')+'</h3>'+
+ '<p>✅ <b>'+full+'</b></p><p class="th">💡 '+q.x+'</p>'+(ok&&streak>=3?'<p>🔥 '+streak+' in a row!</p>':'');
+ document.getElementById("nx").style.display="block"}
+function result(){
+ if(score>best){best=score;try{localStorage.setItem("fcq_best",best)}catch(e){}}
+ var st=score>=45?3:score>=30?2:1,
+ msg=score>=45?"Amazing! You are a First Conditional Star! 🌟":score>=30?"Great work! You are almost a master! 💪":"Nice start! Every try makes you stronger. Play again and beat your score! 🚀";
+ app.innerHTML='<div class="card hero pop"><div class="big">'+(st==3?"🏆":st==2?"🥈":"🌱")+'</div><h1>Quest Complete!</h1>'+
+ '<div class="stars">'+"⭐".repeat(st)+"☆".repeat(3-st)+'</div><div class="score">'+score+' / 50</div>'+
+ '<p>Correct answers: <b>'+right+'/10</b> · 🏆 Best: <b>'+best+'/50</b></p><p>'+msg+'</p>'+
+ '<div class="hint"><b>Remember:</b> If + Present Simple, will + V1</div><button class="btn go" id="r">Play again 🔄</button></div>';
+ document.getElementById("r").onclick=start}
+intro();
+</script>
+</body>
+</html>
